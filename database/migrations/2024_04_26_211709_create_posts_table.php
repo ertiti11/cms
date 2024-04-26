@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->timestamps();
         });
     }
