@@ -1,15 +1,13 @@
-import { loginRequest, logoutRequest } from "./api/auth";
-
-function App() {
-  const test = loginRequest({ email: "titi@gmail.com", password: "hola123!" });
-  // const test = logoutRequest();
-  console.log(test);
-
-  return (
-    <div>
-      hola
-    </div>
-  )
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
-
-export default App
