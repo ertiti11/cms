@@ -11,9 +11,6 @@ class AuthenticatedSessionController extends Controller
 {
     /**
      * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(LoginRequest $request)
     {
@@ -21,14 +18,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Authenticated'
+        ]);
     }
 
     /**
      * Destroy an authenticated session.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
@@ -38,6 +34,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => 'Ok'
+        ]);
     }
 }
