@@ -20,3 +20,23 @@ Artisan::command('db:clear', function () {
 })->purpose('Drop all tables in the database')->hourly();
 
 
+
+
+// show all tables of db
+
+Artisan::command('db:tables', function () {
+    $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+    foreach ($tables as $table) {
+        $this->comment($table->table_name);
+    }
+})->purpose('Show all tables in the database')->hourly();
+
+
+//show fields of table
+
+Artisan::command('db:fields {table}', function ($table) {
+    $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$table]);
+    foreach ($fields as $field) {
+        $this->comment($field->column_name . ' - ' . $field->data_type);
+    }
+})->purpose('Show all fields of a table in the database')->hourly();
