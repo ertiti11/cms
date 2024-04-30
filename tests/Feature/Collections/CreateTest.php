@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
-uses(RefreshDatabase::class);
+// uses(RefreshDatabase::class);
 
 test('it creates a new table with the given schema', function () {
     $request = new Request([

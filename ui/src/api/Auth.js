@@ -12,7 +12,8 @@ export const login = async (email, password) => {
             password,
         });
         console.log(`${API_URL}/login`)
-        sessionStorage.setItem("session", response.headers["set-cookie"]);
+        console.log(response.data)
+        localStorage.setItem("session", response.data.token);
         return response.data;
     } catch (error) {
         return Promise.reject(error.response.data);
@@ -32,9 +33,10 @@ export const logout = async () => {
             },
         });
         sessionStorage.removeItem("session");
-        Document.cookie.clear();
+        //clear cookies
+        console.log(response.data)
         return response.data;
     } catch (error) {
-        return Promise.reject(error.response.data);
+        return Promise.reject(error);
     }
 }
