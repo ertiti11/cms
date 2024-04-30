@@ -22,10 +22,20 @@ class GenericCollectionController extends Controller
     
     public function create(Request $request, string $collection)
     {
-        $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
 
-        //create new record to collection
-        $record = DB::table($collection)->insert($request->all());
+        $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
+        
+        // quiero que el id se genere automaticamente
+        
+        //validate request fields
+
+        try{
+            $record = DB::table($collection)->insert($request->all());
+            return response()->json($record);
+        }
+        catch(\Exception $e){
+            return response()->json(["error" => $e->getMessage()]);
+        }
     }
     
     public function update(Request $request)

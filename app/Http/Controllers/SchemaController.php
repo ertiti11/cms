@@ -13,6 +13,23 @@ class SchemaController extends Controller
     {
         $data = $request->all();
 
+        $validator = Validator::make($data, [
+            'collectionName' => 'required|string',
+            'collectionfields' => 'required|array',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        //convertir todos las mayusculas a minusculas y los espacios por _
+
+        $data['collectionName'] = strtolower(str_replace(' ', '_', $data['collectionName']));
+        $data['collectionfields'] = array_map(function ($field) {
+            return strtolower(str_replace(' ', '_', $field));
+        }, $data['collectionfields']);
+
+
         // Validar que los datos necesarios están presentes
         if (!isset($data['collectionName']) || !isset($data['collectionfields']) || !is_array($data['collectionfields'])) {
             return response()->json(['error' => 'Datos inválidos'], 400);
