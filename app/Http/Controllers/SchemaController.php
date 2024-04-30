@@ -13,6 +13,10 @@ class SchemaController extends Controller
     {
         $data = $request->all();
 
+        //el campo collectionfields
+
+
+
         $validator = Validator::make($data, [
             'collectionName' => 'required|string',
             'collectionfields' => 'required|array',
@@ -38,6 +42,11 @@ class SchemaController extends Controller
         $tableName = $data['collectionName'];
         $fields = $data['collectionfields'];
 
+
+        //controlar si la tabla ya existe, si es asi devolver un error
+        if (Schema::hasTable($tableName)) {
+            return response()->json(['error' => 'La tabla ya existe'], 400);
+        }
         // Crear la tabla
         Schema::create($tableName, function (Blueprint $table) use ($fields) {
             $table->increments('id');
