@@ -15,8 +15,6 @@ class SchemaController extends Controller
 
         //el campo collectionfields
 
-
-
         $validator = Validator::make($data, [
             'collectionName' => 'required|string',
             'collectionfields' => 'required|array',

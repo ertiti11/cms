@@ -40,3 +40,12 @@ Artisan::command('db:fields {table}', function ($table) {
         $this->comment($field->column_name . ' - ' . $field->data_type);
     }
 })->purpose('Show all fields of a table in the database')->hourly();
+
+//show all records of table
+
+Artisan::command('db:records {table}', function ($table) {
+    $records = DB::table($table)->get();
+    foreach ($records as $record) {
+        $this->comment(json_encode($record));
+    }
+})->purpose('Show all records of a table in the database')->hourly();
