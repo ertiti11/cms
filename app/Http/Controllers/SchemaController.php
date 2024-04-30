@@ -13,6 +13,18 @@ class SchemaController extends Controller
     {
         $data = $request->all();
 
+
+        // Mapa de funciones de manejo de tipos de datos
+        $dataHandlers = [
+            'string' => function ($value) {
+                $url = "STRING";
+                return $url;
+            },
+            // Agrega más manejadores para otros tipos de datos según sea necesario
+        ];
+
+
+
         //el campo collectionfields
 
         $validator = Validator::make($data, [
@@ -34,7 +46,7 @@ class SchemaController extends Controller
             $newCollectionFields[$newField] = $type;
         }
         $data['collectionfields'] = $newCollectionFields;
-     
+
 
         // Validar que los datos necesarios están presentes
         if (!isset($data['collectionName']) || !isset($data['collectionfields']) || !is_array($data['collectionfields'])) {
@@ -45,11 +57,29 @@ class SchemaController extends Controller
         $fields = $data['collectionfields'];
 
 
+
         //controlar si la tabla ya existe, si es asi devolver un error
         if (Schema::hasTable($tableName)) {
             return response()->json(['error' => 'La tabla ya existe'], 400);
         }
+
+        //saca el valor de fields y no el key
+        $types = array_values($fields);
+
+        //ejecutar una funcion de dataHandlers para cada tipo de dato
+
+        foreach ($types as $type) {
+            if (isset($dataHandlers[$type])) {
+                $dataHandlers[$type]($type);
+            }
+        }
+
+        
+
+
+
         // Crear la tabla
+        
         Schema::create($tableName, function (Blueprint $table) use ($fields) {
             $table->increments('id');
 
