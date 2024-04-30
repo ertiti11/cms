@@ -29,10 +29,14 @@ class SchemaController extends Controller
         //convertir todos las mayusculas a minusculas y los espacios por _
 
         $data['collectionName'] = strtolower(str_replace(' ', '_', $data['collectionName']));
-        $data['collectionfields'] = array_map(function ($field) {
-            return strtolower(str_replace(' ', '_', $field));
-        }, $data['collectionfields']);
 
+        $newCollectionFields = [];
+        foreach ($data['collectionfields'] as $field => $type) {
+            $newField = strtolower(str_replace(' ', '_', $field));
+            $newCollectionFields[$newField] = $type;
+        }
+        $data['collectionfields'] = $newCollectionFields;
+     
 
         // Validar que los datos necesarios están presentes
         if (!isset($data['collectionName']) || !isset($data['collectionfields']) || !is_array($data['collectionfields'])) {

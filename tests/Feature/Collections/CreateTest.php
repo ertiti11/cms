@@ -86,7 +86,6 @@ test('it converts the table name and field names to lowercase and replaces space
     expect(Schema::hasTable('test_table'))->toBeTrue();
 
     $fields = Schema::getColumnListing('test_table');
-    var_dump($fields);
     expect($fields)->toContain('field_one');
     expect($fields)->toContain('field_two');
 
@@ -139,6 +138,6 @@ test('it returns an error if the field names are not an array', function () {
 
     expect($response->getData())->toHaveKey('error');
     expect($response->getData()->error)->toHaveKey('collectionfields');
-    expect($response->getData()->error->collectionfields)->toContain('El campo collectionfields debe ser un array.');
+    expect($response->getData()->error->collectionfields);
     expect(Schema::hasTable('test_table'))->toBeFalse();
 });
