@@ -26,6 +26,16 @@ class GenericCollectionController extends Controller
         $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
         
         // quiero que el id se genere automaticamente
+
+        //verificar si en el post viene un archivo, si es un archivo se tiene que guardar en el disco duro y en la base de datos guardar el path
+        
+        if($request->hasFile('file')){
+            $path = $request->file('file')->store('uploads');
+            $request->merge(['file' => $path]);
+        }
+
+
+
         
         //validate request fields
 

@@ -27,3 +27,5 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 //delete
 Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'list']);
 
+
+
