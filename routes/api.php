@@ -14,9 +14,12 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/create', [SchemaController::class, 'create']);
 
+//create
+Route::post('/register', [RegisteredUserController::class, 'store']) //No furula
+                ->middleware('guest')
+                ->name('register');
 
 //generic crud for all schemas
-
 //list/search
 Route::get('/collections/{collection}/records', [GenericCollectionController::class, 'view']);
 //view
@@ -28,13 +31,3 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 //delete
 Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'list']);
 
-//list/search
-Route::get('/collections/users/records', [RegisteredUserController::class, 'view']);
-//view
-Route::get('/collections/users/records/{id}', [RegisteredUserController::class, 'read']);
-//create
-Route::post('/collections/users/records', [RegisteredUserController::class, 'create']);
-//update
-Route::patch('/collections/users/records/{id}', [RegisteredUserController::class, 'delete']);
-//delete
-Route::post('/collections/users/records/{id}', [RegisteredUserController::class, 'list']);
