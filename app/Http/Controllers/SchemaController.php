@@ -20,6 +20,10 @@ class SchemaController extends Controller
                 $url = "STRING";
                 return $url;
             },
+            'file' => function ($value) {
+                $url = "string";
+                return $url;
+            },
             // Agrega más manejadores para otros tipos de datos según sea necesario
         ];
 
@@ -82,8 +86,10 @@ class SchemaController extends Controller
         
         Schema::create($tableName, function (Blueprint $table) use ($fields) {
             $table->increments('id');
-
             foreach ($fields as $fieldName => $fieldType) {
+                if ($fieldType == 'file') {
+                    $table->string($fieldName . '_file');                    continue;
+                }
                 $table->$fieldType($fieldName);
             }
         });
