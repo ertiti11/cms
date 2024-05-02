@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\GenericCollectionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -15,10 +14,11 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/create', [SchemaController::class, 'create']);
 
-//create
-Route::post('/register', [RegisteredUserController::class, 'store']) //No furula
-                ->middleware('guest')
-                ->name('register');
+
+
+Route::get('/collections/{collection}/fields', [GenericCollectionController::class, 'showfields']);
+
+
 
 //generic crud for all schemas
 //list/search
@@ -35,3 +35,4 @@ Route::post('/collections/{collection}/records/{id}', [GenericCollectionControll
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);
 
+require __DIR__.'/auth.php';
