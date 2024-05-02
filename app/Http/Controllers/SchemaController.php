@@ -6,6 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class SchemaController extends Controller
 {
@@ -78,10 +79,6 @@ class SchemaController extends Controller
             }
         }
 
-        
-
-
-
         // Crear la tabla
         
         Schema::create($tableName, function (Blueprint $table) use ($fields) {
@@ -95,5 +92,16 @@ class SchemaController extends Controller
         });
 
         return response()->json(['success' => 'Tabla creada con éxito'], 200);
+    }
+
+    public function view(Request $request)
+    {
+        //get all table names of the db
+        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+        
+        //transform the result into an array of table names
+        $tableNames = array_map('current',$tables);
+        
+        return response()->json($tableNames);
     }
 }

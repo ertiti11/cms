@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\GenericCollectionController;
 
+
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -31,6 +32,7 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 //delete
 Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'list']);
 
-
+//Obtener todas las tablas
+Route::get('/collections/all', [SchemaController::class, 'view']);
 
 require __DIR__.'/auth.php';
