@@ -1,0 +1,19 @@
+.customTable {
+    width: 80%; /* La tabla abarca todo el contenedor */
+    border-collapse: collapse; /* Elimina el espacio entre las celdas */
+  }
+  
+  .customTable th, .customTable td {
+    border: 1px solid #000000; /* Borde alrededor de cada celda */
+    padding: 8px; /* Espacio interno en las celdas */
+    text-align: left; /* Alineación del texto a la izquierda */
+    height: 30px;
+  }
+  
+  .customTable th {
+    background-color: #f2f2f2; /* Color de fondo para las celdas de encabezado */
+  }
+
+.table {
+    margin-left: 20px;
+}

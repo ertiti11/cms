@@ -1,0 +1,29 @@
+.sidebar {
+    height: 100%; /* Opcional: ajusta la altura de la barra lateral */
+    width: 5%; /* Ancho de la barra lateral */
+    position: fixed; /* Fija la barra lateral en la pantalla */
+    top: 0; /* Alinea la barra lateral con la parte superior */
+    left: 0; /* Alinea la barra lateral con la izquierda */
+    background-color: #333; /* Color de fondo de la barra lateral */
+    padding-top: 20px; /* Espacio de relleno en la parte superior */
+  }
+  
+  .sidebar ul {
+    list-style-type: none; /* Quita los estilos de la lista */
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px 20px; /* Espaciado entre elementos */
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none; /* Quita el subrayado de los enlaces */
+    color: #fff; /* Color del texto */
+    display: block; /* Muestra los enlaces como bloques */
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #555; /* Color de fondo cuando se pasa el ratón */
+  }
+  

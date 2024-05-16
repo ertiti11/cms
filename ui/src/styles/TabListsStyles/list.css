@@ -1,0 +1,15 @@
+.list {
+    width: 10%;
+    height: 90%;
+    background-color: rgb(201, 201, 201);
+    position: fixed;
+    left: 5%;
+    top: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list p {
+    margin-top: 20px;
+}

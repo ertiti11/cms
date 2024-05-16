@@ -1,0 +1,7 @@
+.tabLists {
+  position: fixed;
+  left: 5%;
+  width: 10%;
+  height: 100%;
+  background-color: rgb(202, 202, 202);
+}
