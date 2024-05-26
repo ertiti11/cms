@@ -35,4 +35,7 @@ Route::post('/collections/{collection}/records/{id}', [GenericCollectionControll
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);
 
+
+Route::post('/register', [UserController::class, 'create']);
+
 require __DIR__.'/auth.php';
