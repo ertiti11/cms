@@ -1,19 +1,53 @@
 .customTable {
-    width: 80%; /* La tabla abarca todo el contenedor */
-    border-collapse: collapse; /* Elimina el espacio entre las celdas */
-  }
-  
-  .customTable th, .customTable td {
-    border: 1px solid #000000; /* Borde alrededor de cada celda */
-    padding: 8px; /* Espacio interno en las celdas */
-    text-align: left; /* Alineación del texto a la izquierda */
-    height: 30px;
-  }
-  
-  .customTable th {
-    background-color: #f2f2f2; /* Color de fondo para las celdas de encabezado */
-  }
+  width: 80%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+}
+
+.customTable th, .customTable td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
+}
+
+.customTable thead th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.customTable tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+
+.customTable tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.customTable th {
+  text-align: left;
+}
 
 .table {
-    margin-left: 20px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-left: 20px;
+}
+
+.table input[type="text"] {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  width: 80%;
+  box-sizing: border-box;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.table input[type="text"]:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
 }

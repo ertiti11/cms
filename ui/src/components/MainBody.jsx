@@ -9,7 +9,7 @@ class MainBody extends React.Component {
         return (
             <>
                 <Title />
-                <Search />
+                {/* <Search /> */}
                 <TableComponent />
             </>
         );

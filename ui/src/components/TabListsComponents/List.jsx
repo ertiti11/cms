@@ -1,6 +1,16 @@
 
 import React from 'react';
 
+// RECIBIR DEL BACKEND LAS COLECCIONES
+
+// Objeto de ejemplo:
+
+let collections = [
+    {
+        title: "users",
+    }
+]
+
 class List extends React.Component {
     render() {
         return (
