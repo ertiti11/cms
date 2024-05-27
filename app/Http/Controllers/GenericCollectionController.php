@@ -1,85 +1,73 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
-class GenericCollectionController extends Controller
+class GenericCollectionController extends Controller 
 {
-    
-    public function view(Request $request, string $collection)
+    // crea el crud basico para el controlador
+    public function view($collection)
     {
-        //get all fields of the collection (table)
-        $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
-        
-        //list all records on the table (collection)
-        $records = DB::table($collection)->get();
-        
-        return response()->json($records);
-
+        $data = DB::table($collection)->get();
+        return response()->json($data);
     }
-    
-    public function create(Request $request, string $collection)
+
+    public function read($collection, $id)
     {
+        $data = DB::table($collection)->where('id', $id)->first();
+        return response()->json($data);
+    }
 
-        $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
-        
-        // quiero que el id se genere automaticamente
+    public function create(Request $request, $collection)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'data' => 'required|array',
+        ]);
 
-        //verificar si en el post viene un archivo, si es un archivo se tiene que guardar en el disco duro y en la base de datos guardar el path
-        
-        // saber si la palabra file se encuentra en el nombre del campo
-    
-        foreach($fields as $field){
-            if(strpos($field->column_name, '_file') !== false){
-                if($request->hasFile($field->column_name)){
-                    $path = $request->file($field->column_name)->storeAs('public', $request->file($field->column_name)->getClientOriginalName());
-                    $request->merge([$field->column_name => $path]);
-                }
-            }
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
         }
 
-        
+        $id = DB::table($collection)->insertGetId($data['data']);
+        return response()->json(['id' => $id]);
+    }
 
+    public function update(Request $request, $collection, $id)
+    {
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'data' => 'required|array',
+        ]);
 
-
-        //validate request fields
-
-        try{
-            print_r($request->file('thumbnail_file'));
-            $record = DB::table($collection)->insert($request->all());
-            return response()->json(["message" => "Record created"]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
         }
-        catch(\Exception $e){
-            return response()->json(["error" => $e->getMessage()]);
-        }
-    }
-    
-    public function update(Request $request)
-    {
-        //
-    }
-    
-    public function delete(Request $request)
-    {
-        //
-    }
-    
-    public function list(Request $request)
-    {
-        //
+
+        DB::table($collection)->where('id', $id)->update($data['data']);
+        return response()->json(['id' => $id]);
     }
 
-
-    public function showfields(Request $request, string $collection)
+    public function delete($collection, $id)
     {
-        //get all fields of the collection (table)
-        $fields = DB::select("SELECT column_name, data_type FROM information_schema.columns WHERE table_name = ?", [$collection]);
-        
+        DB::table($collection)->where('id', $id)->delete();
+        return response()->json(['id' => $id]);
+    }  
+
+    public function showfields($collection)
+    {
+        $fields = Schema::getColumnListing($collection);
         return response()->json($fields);
-
     }
 
+    public function list($collection, $id)
+    {
+        $data = DB::table($collection)->where('id', $id)->get();
+        return response()->json($data);
+    }
 
 }
