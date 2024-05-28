@@ -6,16 +6,7 @@ let tab = {
         { title: "id" },
         { title: "name" },
         { title: "email" },
-        { title: "edad" },
     ],
-    /*data: [
-        { id: 1, name: "Usuario 1", email: "usuario1@example.com", edad: 20 },
-        { id: 2, name: "Usuario 2", email: "usuario2@example.com", edad: 20 },
-        { id: 3, name: "Diego", email: "diego@example.com", edad: 30 },
-        { id: 4, name: "Julio", email: "julio@example.com", edad: 30 },
-        { id: 5, name: "Francisco", email: "paco@example.com", edad: 40 },
-        { id: 6, name: "Jose", email: "pepe@example.com", edad: 40 },
-    ],*/
 };
 
 const TableComponent = () => {
@@ -53,8 +44,7 @@ const TableComponent = () => {
         setSearchTerm(event.target.value);
     };
 
-    const filteredData = data.length ? data : tab.data;
-
+    const filteredData = data.length > 0 ? data : [];
     const displayedData = filteredData.filter(row => {
         return Object.values(row).some(val =>
             String(val).toLowerCase().includes(searchTerm.toLowerCase())
