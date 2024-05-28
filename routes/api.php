@@ -14,10 +14,13 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::post('/create', [SchemaController::class, 'create']);
 
-
-
 Route::get('/collections/{collection}/fields', [GenericCollectionController::class, 'showfields']);
 
+Route::get('users', function () {
+    return response()->json([
+        'users' => \App\Models\User::all()
+    ]);
+});
 
 
 //generic crud for all schemas
