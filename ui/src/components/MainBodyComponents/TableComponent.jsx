@@ -1,5 +1,6 @@
 import '../../styles/MainBodyStyles/Table.css';
 import React, { useState, useEffect } from 'react';
+import PocketBase from 'pocketbase';
 
 let tab = {
     cols: [
@@ -15,7 +16,7 @@ const TableComponent = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
-    useEffect(() => {
+    /* useEffect(() => {
         // URL de la API que deseas consultar
         const apiUrl = 'http://localhost:8000/api/collections/users/records';
 
@@ -38,7 +39,17 @@ const TableComponent = () => {
         };
 
         fetchData();
-    }, []); // El array vacío [] hace que useEffect se ejecute solo una vez
+    }, []); */ // El array vacío [] hace que useEffect se ejecute solo una vez
+    const [posts, setPosts] = useState(null);
+    useEffect(() => {
+        const fetchPosts = async () => {
+          const pb = new PocketBase("https://esciclismomalaga.pockethost.io");
+          const resultList = await pb.collection("posts").getFullList();
+          setPosts(resultList.items);
+          console.log(resultList);
+        };
+        fetchPosts();
+      }, []);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);

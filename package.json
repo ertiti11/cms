@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "pocketbase": "^0.21.2"
   },
   "devDependencies": {
     "husky": "^8.0.0"
