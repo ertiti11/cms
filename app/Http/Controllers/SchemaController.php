@@ -97,11 +97,16 @@ class SchemaController extends Controller
     public function view(Request $request)
     {
         //get all table names of the db
-        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
+        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'cms2'");
         
         //transform the result into an array of table names
         $tableNames = array_map('current',$tables);
         
         return response()->json($tableNames);
+    }
+    public function read( $id)
+    {
+        // get all tables with user_id = $id
+        $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'cms2' AND table_name LIKE 'user_%' AND table_name LIKE '%$id%'");
     }
 }

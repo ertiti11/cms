@@ -37,5 +37,5 @@ Route::post('/collections/{collection}/records/{id}', [GenericCollectionControll
 
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);
-
+Route::get('/collections/{id}', [SchemaController::class, 'read']);
 require __DIR__.'/auth.php';
