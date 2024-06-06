@@ -2,21 +2,14 @@ import '../../styles/MainBodyStyles/Table.css';
 import React, { useState, useEffect } from 'react';
 import PocketBase from 'pocketbase';
 
-let tab = {
-    cols: [
-        { title: "id" },
-        { title: "name" },
-        { title: "email" },
-    ],
-};
-
 const TableComponent = () => {
     const [data, setData] = useState([]);
+    const [cols, setCols] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
-    /* useEffect(() => {
+    useEffect(() => {
         // URL de la API que deseas consultar
         const apiUrl = 'http://localhost:8000/api/collections/users/records';
 
@@ -29,6 +22,13 @@ const TableComponent = () => {
                 }
                 const result = await response.json();
                 console.log(result); // Imprimir los datos obtenidos en la consola
+                
+                // Extract column titles from the first row of the result if available
+                if (result.length > 0) {
+                    const columns = Object.keys(result[0]).map(key => ({ title: key }));
+                    setCols(columns); // Set columns based on the keys of the first object
+                }
+                
                 setData(result); // Guardar los datos obtenidos en el estado
             } catch (error) {
                 console.error('Error fetching data:', error); // Imprimir el error en la consola
@@ -39,17 +39,7 @@ const TableComponent = () => {
         };
 
         fetchData();
-    }, []); */ // El array vacío [] hace que useEffect se ejecute solo una vez
-    const [posts, setPosts] = useState(null);
-    useEffect(() => {
-        const fetchPosts = async () => {
-          const pb = new PocketBase("https://esciclismomalaga.pockethost.io");
-          const resultList = await pb.collection("posts").getFullList();
-          setPosts(resultList.items);
-          console.log(resultList);
-        };
-        fetchPosts();
-      }, []);
+    }, []); // El array vacío [] hace que useEffect se ejecute solo una vez
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -82,7 +72,7 @@ const TableComponent = () => {
                 <thead>
                     <tr>
                         <th><input type='checkbox' /></th>
-                        {tab.cols.map((col, index) => (
+                        {cols.map((col, index) => (
                             <th key={index}>{col.title}</th>
                         ))}
                     </tr>
@@ -91,7 +81,7 @@ const TableComponent = () => {
                     {displayedData.map((row, rowIndex) => (
                         <tr key={rowIndex}>
                             <td><input type='checkbox' /></td>
-                            {tab.cols.map((col, colIndex) => (
+                            {cols.map((col, colIndex) => (
                                 <td key={colIndex}>{row[col.title]}</td>
                             ))}
                         </tr>
