@@ -35,6 +35,7 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 //delete
 Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'list']);
 
+
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);
 Route::get('/collections/{id}', [SchemaController::class, 'read']);
