@@ -11,5 +11,13 @@
 }
 
 .list p {
+    cursor: pointer; /* Cambia el puntero a una mano de selección */
+    transition: background-color 0.3s ease; /* Agrega una transición suave al fondo */
     margin-top: 20px;
-}
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .list p:hover {
+    background-color: rgb(169, 169, 169); /* Cambia el color de fondo al pasar el cursor */
+  }

@@ -1,88 +1,77 @@
-import '../../styles/MainBodyStyles/Table.css';
 import React, { useState, useEffect } from 'react';
-import PocketBase from 'pocketbase';
+import '../../styles/MainBodyStyles/Table.css';
 
-const TableComponent = () => {
-    const [data, setData] = useState([]);
-    const [cols, setCols] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [searchTerm, setSearchTerm] = useState("");
+const TableComponent = ({ collection }) => {
+    const [records, setRecords] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTimeout, setSearchTimeout] = useState(null);
+
+    console.log("Collection in TableComponent:", collection);
 
     useEffect(() => {
-        // URL de la API que deseas consultar
-        const apiUrl = 'http://localhost:8000/api/collections/users/records';
-
-        // Función para obtener datos de la API
-        const fetchData = async () => {
+        const fetchRecords = async () => {
             try {
-                const response = await fetch(apiUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const result = await response.json();
-                console.log(result); // Imprimir los datos obtenidos en la consola
-                
-                // Extract column titles from the first row of the result if available
-                if (result.length > 0) {
-                    const columns = Object.keys(result[0]).map(key => ({ title: key }));
-                    setCols(columns); // Set columns based on the keys of the first object
-                }
-                
-                setData(result); // Guardar los datos obtenidos en el estado
+                const response = await fetch(`http://localhost:8000/api/collections/${collection}/records`);
+                const data = await response.json();
+                setRecords(data);
             } catch (error) {
-                console.error('Error fetching data:', error); // Imprimir el error en la consola
-                setError(error.message); // Guardar el error en el estado si ocurre alguno
-            } finally {
-                setLoading(false); // Desactivar el estado de carga
+                console.error("Error fetching records:", error);
             }
         };
 
-        fetchData();
-    }, []); // El array vacío [] hace que useEffect se ejecute solo una vez
+        fetchRecords();
+    }, [collection]);
 
     const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
+        const newSearchTerm = event.target.value;
+        setSearchTerm(newSearchTerm);
+
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+
+        const timeout = setTimeout(() => {
+            // Realizar la búsqueda después del tiempo de espera
+            // Aquí puedes realizar la llamada a la API con el término de búsqueda actualizado
+            console.log("Realizar búsqueda con término:", newSearchTerm);
+        }, 500); // Esperar 500 milisegundos antes de realizar la búsqueda
+
+        setSearchTimeout(timeout);
     };
 
-    const filteredData = data.length > 0 ? data : [];
-    const displayedData = filteredData.filter(row => {
-        return Object.values(row).some(val =>
-            String(val).toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    });
-
-    if (loading) {
-        return <div>Cargando...</div>; // Mostrar un mensaje de carga
+    const filteredRecords = records.filter((record) =>
+        Object.values(record).some((value) =>
+            value !== null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        )
+    );
+   
+    if (filteredRecords.length === 0) {
+        return <div>No records found.</div>;
     }
 
-    if (error) {
-        return <div>Error: {error}</div>; // Mostrar un mensaje de error si ocurre
-    }
+    const columns = Object.keys(filteredRecords[0]);
 
     return (
         <div className='table'>
             <input
                 type="text"
-                placeholder="Buscar..."
+                placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearchChange}
             />
-            <table className="customTable">
+            <table className='customTable'>
                 <thead>
                     <tr>
-                        <th><input type='checkbox' /></th>
-                        {cols.map((col, index) => (
-                            <th key={index}>{col.title}</th>
+                        {columns.map((column, index) => (
+                            <th key={index}>{column}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {displayedData.map((row, rowIndex) => (
+                    {filteredRecords.map((record, rowIndex) => (
                         <tr key={rowIndex}>
-                            <td><input type='checkbox' /></td>
-                            {cols.map((col, colIndex) => (
-                                <td key={colIndex}>{row[col.title]}</td>
+                            {columns.map((column, colIndex) => (
+                                <td key={colIndex}>{record[column]}</td>
                             ))}
                         </tr>
                     ))}
