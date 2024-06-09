@@ -41,6 +41,18 @@ const TableComponent = ({ collection }) => {
         setSearchTimeout(timeout);
     };
 
+    const handleDelete = async (recordId) => {
+        try {
+            const response = await axios.delete(`http://localhost:8000/api/collections/${collection}/records/${recordId}`);
+            if (response.status === 200) {
+                // Actualizar el estado para eliminar el registro de la tabla
+                setRecords(records.filter(record => record.id !== recordId));
+            }
+        } catch (error) {
+            console.error('Error deleting record:', error);
+        }
+    };
+
     const filteredRecords = records.filter((record) =>
         Object.values(record).some((value) =>
             value !== null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
@@ -52,28 +64,6 @@ const TableComponent = ({ collection }) => {
     }
 
     const columns = Object.keys(filteredRecords[0]).filter(key => !EXCLUDED_KEYS.includes(key));
-
-    const handleEdit = async (record) => {
-        try {
-            const response = await axios.patch('/api/edit', record); // Asegúrate de reemplazar '/api/edit' con la URL de tu API
-            if (response.status === 200) {
-                // Aquí puedes manejar la respuesta exitosa, por ejemplo, puedes actualizar el registro en la lista de registros en el estado del componente
-            }
-        } catch (error) {
-            console.error('Error al editar el registro:', error);
-        }
-    };
-
-    const handleDelete = async (recordId) => {
-        try {
-            const response = await axios.post('/api/delete', { id: recordId }); // Asegúrate de reemplazar '/api/delete' con la URL de tu API
-            if (response.status === 200) {
-                // Aquí puedes manejar la respuesta exitosa, por ejemplo, puedes eliminar el registro de la lista de registros en el estado del componente
-            }
-        } catch (error) {
-            console.error('Error al eliminar el registro:', error);
-        }
-    };
 
     return (
         <div className='table'>
