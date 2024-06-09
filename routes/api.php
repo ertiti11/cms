@@ -31,7 +31,7 @@ Route::get('/collections/{collection}/records/{id}', [GenericCollectionControlle
 //create
 Route::post('/collections/{collection}/records', [GenericCollectionController::class, 'create']);
 //update
-Route::patch('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'update']); //No hecho
+Route::patch('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'update']);
 //delete
 Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
 
