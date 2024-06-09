@@ -51,6 +51,8 @@ const TableComponent = ({ collection }) => {
 
     const columns = Object.keys(filteredRecords[0]);
 
+    
+
     return (
         <div className='table'>
             <input
@@ -65,6 +67,8 @@ const TableComponent = ({ collection }) => {
                         {columns.map((column, index) => (
                             <th key={index}>{column}</th>
                         ))}
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,6 +77,12 @@ const TableComponent = ({ collection }) => {
                             {columns.map((column, colIndex) => (
                                 <td key={colIndex}>{record[column]}</td>
                             ))}
+                            <td>
+                                <button className='delete'>X</button>
+                            </td>
+                            <td>
+                                <button className='edit'>Edit</button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
