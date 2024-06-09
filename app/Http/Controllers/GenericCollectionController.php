@@ -70,5 +70,5 @@ class GenericCollectionController extends Controller
         return response()->json($data);
     }
 
-    
+
 }
