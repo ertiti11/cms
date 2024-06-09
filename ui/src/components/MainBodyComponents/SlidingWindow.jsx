@@ -5,6 +5,8 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
     const [formData, setFormData] = useState({});
     const [formFields, setFormFields] = useState([]);
 
+    const EXCLUDED_KEYS = ['email_verified_at', 'remember_token', 'created_at', 'updated_at'];
+
     useEffect(() => {
         const fetchFormFields = async () => {
             if (!collection) {
@@ -17,7 +19,7 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
                 const data = await response.json();
                 console.log("Fetched data:", data);
                 if (data.length > 0) {
-                    const keys = Object.keys(data[0]);
+                    const keys = Object.keys(data[0]).filter(key => !EXCLUDED_KEYS.includes(key));
                     setFormFields(keys);
                     setFormData(keys.reduce((acc, key) => ({ ...acc, [key]: '' }), {}));
                 }

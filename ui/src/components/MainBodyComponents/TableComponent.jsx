@@ -7,6 +7,8 @@ const TableComponent = ({ collection }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTimeout, setSearchTimeout] = useState(null);
 
+    const EXCLUDED_KEYS = ['email_verified_at', 'remember_token', 'created_at', 'updated_at'];
+
     console.log("Collection in TableComponent:", collection);
 
     useEffect(() => {
@@ -33,7 +35,6 @@ const TableComponent = ({ collection }) => {
 
         const timeout = setTimeout(() => {
             // Realizar la búsqueda después del tiempo de espera
-            // Aquí puedes realizar la llamada a la API con el término de búsqueda actualizado
             console.log("Realizar búsqueda con término:", newSearchTerm);
         }, 500); // Esperar 500 milisegundos antes de realizar la búsqueda
 
@@ -45,12 +46,12 @@ const TableComponent = ({ collection }) => {
             value !== null && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
         )
     );
-   
+
     if (filteredRecords.length === 0) {
         return <div>No records found.</div>;
     }
 
-    const columns = Object.keys(filteredRecords[0]);
+    const columns = Object.keys(filteredRecords[0]).filter(key => !EXCLUDED_KEYS.includes(key));
 
     const handleEdit = async (record) => {
         try {
@@ -61,7 +62,7 @@ const TableComponent = ({ collection }) => {
         } catch (error) {
             console.error('Error al editar el registro:', error);
         }
-    }
+    };
 
     const handleDelete = async (recordId) => {
         try {
@@ -72,7 +73,7 @@ const TableComponent = ({ collection }) => {
         } catch (error) {
             console.error('Error al eliminar el registro:', error);
         }
-    }
+    };
 
     return (
         <div className='table'>
@@ -99,10 +100,10 @@ const TableComponent = ({ collection }) => {
                                 <td key={colIndex}>{record[column]}</td>
                             ))}
                             <td>
-                                <button className='delete'>X</button>
+                                <button className='delete' onClick={() => handleDelete(record.id)}>X</button>
                             </td>
                             <td>
-                                <button className='edit'>Edit</button>
+                                <button className='edit' onClick={() => handleEdit(record)}>Edit</button>
                             </td>
                         </tr>
                     ))}
