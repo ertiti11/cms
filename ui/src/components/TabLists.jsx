@@ -4,11 +4,12 @@ import List from './TabListsComponents/List';
 import TableComponent from './MainBodyComponents/TableComponent';
 import '../styles/TabListsStyles/list.css';
 
-const TabLists = () => {
+const TabLists = ({ onCollectionSelect }) => {
     const [selectedCollection, setSelectedCollection] = useState(null);
 
     const handleCollectionClick = (collection) => {
         setSelectedCollection(collection);
+        onCollectionSelect(collection);
     };
 
     return (

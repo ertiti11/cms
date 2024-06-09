@@ -8,7 +8,7 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
     useEffect(() => {
         const fetchFormFields = async () => {
             if (!collection) {
-                console.log("No collection provided"); 
+                console.log("No collection provided");
                 return;
             }
             try {
@@ -42,6 +42,8 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
         console.log("Form Data Submitted: ", formData);
         // Aquí puedes enviar formData a tu API
     };
+
+    console.log("SlidingWindow collection:", collection);
 
     return (
         <>

@@ -11,18 +11,22 @@ const MainBody = () => {
     const handleCollectionSelect = (collection) => {
         console.log("Collection selected:", collection);
         setSelectedCollection(collection);
-        setIsSlidingWindowOpen(true); // Asegúrate de abrir SlidingWindow cuando se selecciona una colección
     };
 
     const handleOpenSlidingWindow = () => {
-        setIsSlidingWindowOpen(true);
+        if (selectedCollection) {
+            setIsSlidingWindowOpen(true);
+        } else {
+            console.log("No collection selected");
+            // Opcional: Puedes mostrar un mensaje al usuario indicando que debe seleccionar una colección primero
+        }
     };
 
     const handleCloseSlidingWindow = () => {
         setIsSlidingWindowOpen(false);
     };
 
-    console.log("Selected Collection:", selectedCollection); // Añadir este log
+    console.log("Selected Collection:", selectedCollection);
 
     return (
         <>
@@ -31,11 +35,11 @@ const MainBody = () => {
             <TabLists onCollectionSelect={handleCollectionSelect} />
             {selectedCollection && <TableComponent collection={selectedCollection} />}
             {isSlidingWindowOpen && (
-            <SlidingWindow 
-                isOpen={isSlidingWindowOpen} 
-                onClose={handleCloseSlidingWindow} 
-                collection={selectedCollection}
-            />
+                <SlidingWindow 
+                    isOpen={isSlidingWindowOpen} 
+                    onClose={handleCloseSlidingWindow} 
+                    collection={selectedCollection}
+                />
             )}
         </>
     );
