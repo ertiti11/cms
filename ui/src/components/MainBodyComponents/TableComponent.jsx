@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/MainBodyStyles/Table.css';
+import axios from 'axios';
 
 const TableComponent = ({ collection }) => {
     const [records, setRecords] = useState([]);
@@ -51,7 +52,27 @@ const TableComponent = ({ collection }) => {
 
     const columns = Object.keys(filteredRecords[0]);
 
-    
+    const handleEdit = async (record) => {
+        try {
+            const response = await axios.patch('/api/edit', record); // Asegúrate de reemplazar '/api/edit' con la URL de tu API
+            if (response.status === 200) {
+                // Aquí puedes manejar la respuesta exitosa, por ejemplo, puedes actualizar el registro en la lista de registros en el estado del componente
+            }
+        } catch (error) {
+            console.error('Error al editar el registro:', error);
+        }
+    }
+
+    const handleDelete = async (recordId) => {
+        try {
+            const response = await axios.post('/api/delete', { id: recordId }); // Asegúrate de reemplazar '/api/delete' con la URL de tu API
+            if (response.status === 200) {
+                // Aquí puedes manejar la respuesta exitosa, por ejemplo, puedes eliminar el registro de la lista de registros en el estado del componente
+            }
+        } catch (error) {
+            console.error('Error al eliminar el registro:', error);
+        }
+    }
 
     return (
         <div className='table'>

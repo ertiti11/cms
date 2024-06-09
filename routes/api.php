@@ -31,9 +31,9 @@ Route::get('/collections/{collection}/records/{id}', [GenericCollectionControlle
 //create
 Route::post('/collections/{collection}/records', [GenericCollectionController::class, 'create']);
 //update
-Route::patch('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
+Route::patch('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'update']); //No hecho
 //delete
-Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'list']);
+Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
 
 
 //Obtener todas las tablas
