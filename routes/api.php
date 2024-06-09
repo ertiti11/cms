@@ -33,7 +33,7 @@ Route::post('/collections/{collection}/records', [GenericCollectionController::c
 //update
 Route::patch('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'update']);
 //delete
-Route::post('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
+Route::delete('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
 
 
 //Obtener todas las tablas
