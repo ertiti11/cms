@@ -36,7 +36,14 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 Route::delete('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
 
 
+
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);
 Route::get('/collections/{id}', [SchemaController::class, 'read']);
+
+
+
+//obtener todos los campos de una coleccion
+
+Route::get('/collections/{collection}/fields', [SchemaController::class, 'showfields']);
 require __DIR__.'/auth.php';
