@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/MainBodyStyles/SlidingWindow.css';
 
-const SlidingWindow = ({ isOpen, onClose, collection }) => {
+const SlidingWindow = ({ isOpen, onClose, collection, onRecordAdded }) => {
     const [formData, setFormData] = useState({});
     const [formFields, setFormFields] = useState([]);
 
-    const EXCLUDED_KEYS = ['email_verified_at', 'remember_token', 'created_at', 'updated_at'];
+    const EXCLUDED_KEYS = ['id', 'email_verified_at', 'remember_token', 'created_at', 'updated_at'];
 
     useEffect(() => {
         const fetchFormFields = async () => {
@@ -29,7 +29,7 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
         };
 
         fetchFormFields();
-    }, [collection]);
+    }, [collection, isOpen]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,10 +39,31 @@ const SlidingWindow = ({ isOpen, onClose, collection }) => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Data Submitted: ", formData);
-        // Aquí puedes enviar formData a tu API
+        
+        try {
+            const response = await fetch('http://localhost:8000/api/collections/' + collection + '/records', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: formData }),
+            });
+            
+            if (response.ok) {
+                console.log("Record successfully added!");
+                // Aquí puedes realizar acciones adicionales después de enviar los datos
+                onClose(); // Cerrar la ventana de Add Record
+                onRecordAdded(); // Notificar al componente padre que se agregó un registro
+            } else {
+                console.error("Failed to add record:", response.status);
+                // Aquí puedes manejar errores en caso de que la solicitud no sea exitosa
+            }
+        } catch (error) {
+            console.error("Error adding record:", error);
+        }
     };
 
     console.log("SlidingWindow collection:", collection);
