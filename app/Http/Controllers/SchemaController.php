@@ -109,4 +109,15 @@ class SchemaController extends Controller
         // get all tables with user_id = $id
         $tables = DB::select("SELECT table_name FROM information_schema.tables WHERE table_schema = 'cms2' AND table_name LIKE 'user_%' AND table_name LIKE '%$id%'");
     }
+
+    public function showfields($collection)
+    {
+        //get all fields of a collection
+        $fields = DB::select("SELECT column_name FROM information_schema.columns WHERE table_schema = 'cms2' AND table_name = '$collection'");
+        
+        //transform the result into an array of field names
+        $fieldNames = array_map('current',$fields);
+        
+        return response()->json($fieldNames);
+    }
 }
