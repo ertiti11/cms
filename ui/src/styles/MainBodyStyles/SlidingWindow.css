@@ -1,0 +1,97 @@
+/* src/styles/MainBodyStyles/SlidingWindow.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 1000;
+}
+
+.overlay.visible {
+    display: block;
+}
+
+.sliding-window {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 600px; /* Ancho incrementado para mejor legibilidad */
+    height: 100%;
+    background: #f9f9f9; /* Fondo claro para mejor contraste */
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    transition: right 0.3s ease;
+    padding: 20px; /* Espaciado interno */
+    box-sizing: border-box;
+}
+
+.sliding-window.open {
+    right: 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Cambiado a la derecha para consistencia */
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333; /* Color del botón de cerrar */
+}
+
+form {
+    padding: 20px;
+}
+
+form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555; /* Color del texto de las etiquetas */
+}
+
+form input {
+    width: 100%;
+    padding: 10px; /* Aumentado para mayor comodidad */
+    border: 1px solid #ccc; /* Borde claro */
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px; /* Tamaño de fuente incrementado */
+}
+
+form button {
+    width: 100%; /* Botón de ancho completo */
+    background-color: #00111b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 18px; /* Tamaño de fuente incrementado */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px; /* Espacio superior para separación */
+}
+
+form button:hover {
+    background-color: #00aa17;
+}
+
+form button:active {
+    background-color: #004494;
+    transform: scale(1);
+}

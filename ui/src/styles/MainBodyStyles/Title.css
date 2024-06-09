@@ -9,3 +9,24 @@
     display: flex;
     align-items: center;
 }
+
+.addRecordButton {
+    z-index: 999;
+    position: fixed;
+    right: 0;
+    margin: 1.2% 5% 0 0;
+    padding: 10px;
+    background-color: #00111b; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin bordes */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones para un efecto suave */
+}
+
+.addRecordButton:hover {
+    background-color: #00aa17; /* Color de fondo al pasar el ratón */
+    transform: scale(1.05); /* Agrandar ligeramente el botón */
+}
