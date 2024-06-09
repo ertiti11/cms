@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/MainBodyStyles/SlidingWindow.css';
 
-const SlidingWindow = ({ isOpen, onClose }) => {
+const SlidingWindow = ({ isOpen, onClose, collection }) => {
     const [formData, setFormData] = useState({});
     const [formFields, setFormFields] = useState([]);
 
     useEffect(() => {
         const fetchFormFields = async () => {
+            if (!collection) {
+                console.log("No collection provided"); 
+                return;
+            }
             try {
+                console.log(`Fetching fields for collection: ${collection}`);
                 const response = await fetch(`http://localhost:8000/api/collections/${collection}/records`);
                 const data = await response.json();
+                console.log("Fetched data:", data);
                 if (data.length > 0) {
                     const keys = Object.keys(data[0]);
                     setFormFields(keys);
@@ -21,7 +27,7 @@ const SlidingWindow = ({ isOpen, onClose }) => {
         };
 
         fetchFormFields();
-    }, []);
+    }, [collection]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
