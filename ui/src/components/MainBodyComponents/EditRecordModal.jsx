@@ -1,7 +1,7 @@
 import { CloudArrowUp } from "phosphor-react";
 import { Button, Modal, Input } from "keep-react";
 import { useState } from "react";
-export default function NewRecordModal({ isOpen, onClose, fields, collection }) {
+export default function EditRecordModal({ isOpen, onClose, fields, collection }) {
     const [formData, setFormData] = useState({});
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -46,7 +46,7 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
                     </Modal.Icon>
 
                     <Modal.Content>
-                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Create new Record</h3>
+                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Edit record</h3>
                         <form onSubmit={handleSubmit}>
                             {fields.map((field, index) => (
                                 <div key={index}>

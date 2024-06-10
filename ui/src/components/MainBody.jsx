@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Title from './MainBodyComponents/Title';
-import TabLists from './TabLists';
-import TableComponent from './MainBodyComponents/TableComponent';
-import NewTable from './MainBodyComponents/NewTable';
-import SlidingWindow from './MainBodyComponents/SlidingWindow';
+import React, { useState } from "react";
+import Title from "./MainBodyComponents/Title";
+import TabLists from "./TabLists";
+import TableComponent from "./MainBodyComponents/TableComponent";
+import NewTable from "./MainBodyComponents/NewTable";
+import SlidingWindow from "./MainBodyComponents/SlidingWindow";
 
 const MainBody = () => {
     const [selectedCollection, setSelectedCollection] = useState(null);
@@ -12,15 +12,6 @@ const MainBody = () => {
     const handleCollectionSelect = (collection) => {
         console.log("Collection selected:", collection);
         setSelectedCollection(collection);
-    };
-
-    const handleOpenSlidingWindow = () => {
-        if (selectedCollection) {
-            setIsSlidingWindowOpen(true);
-        } else {
-            console.log("No collection selected");
-            // Opcional: Puedes mostrar un mensaje al usuario indicando que debe seleccionar una colección primero
-        }
     };
 
     const handleCloseSlidingWindow = () => {
@@ -35,9 +26,9 @@ const MainBody = () => {
             <TabLists onCollectionSelect={handleCollectionSelect} />
             {selectedCollection && <NewTable collection={selectedCollection} />}
             {isSlidingWindowOpen && (
-                <SlidingWindow 
-                    isOpen={isSlidingWindowOpen} 
-                    onClose={handleCloseSlidingWindow} 
+                <SlidingWindow
+                    isOpen={isSlidingWindowOpen}
+                    onClose={handleCloseSlidingWindow}
                     collection={selectedCollection}
                 />
             )}
