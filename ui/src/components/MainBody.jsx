@@ -27,13 +27,6 @@ const MainBody = () => {
                 <h1>ClientSync</h1>
                 {selectedCollection && <NewTable collection={selectedCollection} />}
             </div>
-            {isSlidingWindowOpen && (
-                <SlidingWindow
-                    isOpen={isSlidingWindowOpen}
-                    onClose={handleCloseSlidingWindow}
-                    collection={selectedCollection}
-                />
-            )}
         </>
     );
 };

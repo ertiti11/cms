@@ -1,10 +1,17 @@
 import { CloudArrowUp } from "phosphor-react";
 import { Button, Modal, Input } from "keep-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function NewRecordModal({ isOpen, onClose, fields, collection }) {
+export default function NewRecordModal({ isOpen, onClose, fields, collection, onRecordAdded  }) {
     const [formData, setFormData] = useState({});
     const [fileData, setFileData] = useState(null);
+
+    useEffect(() => {
+        if (isOpen) {
+            // Reset form data when modal opens
+            setFormData({});
+        }
+    }, [isOpen]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,6 +51,7 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
             
             if (response.ok) {
                 console.log("Record successfully added!");
+                onRecordAdded();
                 onClose(); // Close the Add Record modal
             } else {
                 console.error("Failed to add record:", response.status);

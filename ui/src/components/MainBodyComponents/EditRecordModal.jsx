@@ -1,62 +1,68 @@
-import { CloudArrowUp } from "phosphor-react";
-import { Button, Modal, Input } from "keep-react";
-import { useState } from "react";
-export default function EditRecordModal({ isOpen, onClose, fields, collection }) {
+import { useState, useEffect } from "react";
+import { Modal, Input, Button } from "keep-react";
+import axios from "axios";
+
+export default function EditRecordModal({ isOpen, onClose, fields, collection, record, onRecordUpdated }) {
     const [formData, setFormData] = useState({});
+
+    useEffect(() => {
+        if (isOpen && record) {
+            setFormData(record);
+        }
+    }, [isOpen, record]);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log("Name:", name, "Value:", value);
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        const { name, files } = e.target;
+        setFormData({ ...formData, [name]: files[0] });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form Data Submitted: ", formData);
-        
+        const payload = { data: formData }; // Anidar los datos dentro de 'data'
+        console.log("Submitting form data:", payload); // Agrega esta línea para depuración
         try {
-            const response = await fetch('http://localhost:8000/api/collections/' + collection + '/records', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ data: formData }),
-            });
-            
-            if (response.ok) {
-                console.log("Record successfully added!");
-                // Aquí puedes realizar acciones adicionales después de enviar los datos
-                onClose(); // Cerrar la ventana de Add Record
-            } else {
-                console.error("Failed to add record:", response.status);
-                // Aquí puedes manejar errores en caso de que la solicitud no sea exitosa
+            const response = await axios.patch(
+                `http://localhost:8000/api/collections/${collection}/records/${record.id}`,
+                payload
+            );
+            if (response.status === 200) {
+                onRecordUpdated(); // Call the callback to fetch updated records
+                onClose(); // Close the modal
             }
         } catch (error) {
-            console.error("Error adding record:", error);
+            console.error("Error updating record:", error.response?.data || error.message);
         }
     };
+
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
                 <Modal.Body className="space-y-3">
-                    <Modal.Icon>
-                        <CloudArrowUp size={28} color="#1B4DFF" />
-                    </Modal.Icon>
-
                     <Modal.Content>
-                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Edit record</h3>
+                        <h3 className="mb-2 text-body-1 font-medium text-metal-900">Edit Record</h3>
                         <form onSubmit={handleSubmit}>
                             {fields.map((field, index) => (
                                 <div key={index}>
                                     <label>{field}</label>
-                                    <Input
-                                        type="text"
-                                        name={field}
-                                        value={formData[field]}
-                                        onChange={handleChange}
-                                    />
+                                    {field === 'thumbnail' ? (
+                                        <Input
+                                            type="file"
+                                            name={field}
+                                            onChange={handleFileChange}
+                                        />
+                                    ) : (
+                                        <Input
+                                            type="text"
+                                            name={field}
+                                            value={formData[field] || ''}
+                                            onChange={handleChange}
+                                        />
+                                    )}
                                 </div>
                             ))}
                         </form>
