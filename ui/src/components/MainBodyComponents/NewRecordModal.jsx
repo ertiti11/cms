@@ -16,35 +16,37 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
 
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        setFileData(files[0]); // Assuming only one file is selected
-        setFormData({
-            ...formData,
-            [name]: files[0], // This will be replaced by FormData processing
-        });
+        if (files.length > 0) {
+            setFileData(files[0]); // Assuming only one file is selected
+            setFormData({
+                ...formData,
+                [name]: files[0],
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Form Data Submitted: ", formData);
-        
+
         const formSubmission = new FormData();
-        Object.keys(formData).forEach(key => {
-            formSubmission.append(key, formData[key]);
+        const nestedData = { data: { ...formData } };
+
+        Object.keys(nestedData.data).forEach(key => {
+            formSubmission.append(`data[${key}]`, nestedData.data[key]);
         });
 
         try {
-            const response = await fetch('http://localhost:8000/api/collections/' + collection + '/records', {
+            const response = await fetch(`http://localhost:8000/api/collections/${collection}/records`, {
                 method: 'POST',
                 body: formSubmission,
             });
             
             if (response.ok) {
                 console.log("Record successfully added!");
-                // Aquí puedes realizar acciones adicionales después de enviar los datos
-                onClose(); // Cerrar la ventana de Add Record
+                onClose(); // Close the Add Record modal
             } else {
                 console.error("Failed to add record:", response.status);
-                // Aquí puedes manejar errores en caso de que la solicitud no sea exitosa
             }
         } catch (error) {
             console.error("Error adding record:", error);
@@ -58,9 +60,8 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
                     <Modal.Icon>
                         <CloudArrowUp size={28} color="#1B4DFF" />
                     </Modal.Icon>
-
                     <Modal.Content>
-                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Create new Record</h3>
+                        <h3 className="mb-2 text-body-1 font-medium text-metal-900">Create new Record</h3>
                         <form onSubmit={handleSubmit}>
                             {fields.map((field, index) => (
                                 <div key={index}>
