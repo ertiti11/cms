@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 
 import NewRecordModal from "./NewRecordModal";
 import axios from "axios";
+import EditRecordModal from "./EditRecordModal";
 
 export default function NewTable({ collection }) {
     const [records, setRecords] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [newRecordModalOpen, setnewRecordModalOpen] = useState(false);
+    const [editRecordModalOpen, setEditRecordModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const [formfields, setFormFields] = useState([]);
     const [searchTimeout, setSearchTimeout] = useState(null);
@@ -19,11 +21,16 @@ export default function NewTable({ collection }) {
         "updated_at",
     ];
     const handleNewRecord = () => {
-        setIsModalOpen(true);
+        setnewRecordModalOpen(true);
     };
 
+
     const handleCloseModal = () => {
-        setIsModalOpen(false);
+        setnewRecordModalOpen(false);
+    };
+
+    const handleEditCloseModal = () => {
+        setEditRecordModalOpen(false);
     };
 
     console.log("Collection in TableComponent:", collection);
@@ -64,6 +71,27 @@ export default function NewTable({ collection }) {
         )
     );
 
+    const handleSearchChange = (event) => {
+        const newSearchTerm = event.target.value;
+        setSearchTerm(newSearchTerm);
+
+        if (searchTimeout) {
+            clearTimeout(searchTimeout);
+        }
+
+        const timeout = setTimeout(() => {
+            // Realizar la búsqueda después del tiempo de espera
+            console.log("Realizar búsqueda con término:", newSearchTerm);
+        }, 500); // Esperar 500 milisegundos antes de realizar la búsqueda
+
+        setSearchTimeout(timeout);
+    };
+
+
+    const handleEdit = (record) => {
+        setEditRecordModalOpen(true);
+    };
+
     const handleDelete = async (recordId) => {
         try {
             const response = await axios.delete(
@@ -84,8 +112,8 @@ export default function NewTable({ collection }) {
 
     return (
         <>
-        
-        <NewRecordModal isOpen={isModalOpen} onClose={handleCloseModal} fields={fields} collection={collection} />
+        <EditRecordModal isOpen={editRecordModalOpen} onClose={handleEditCloseModal} fields={fields} collection={collection}/>
+        <NewRecordModal isOpen={newRecordModalOpen} onClose={handleCloseModal} fields={fields} collection={collection} />
         <Table showCheckbox={true} className="w-[calc(100%-300px)] ">
             <Table.Caption>
                 <div className="my-5 flex items-center justify-between px-6">
@@ -103,6 +131,8 @@ export default function NewTable({ collection }) {
                                 id="name"
                                 placeholder="find records..."
                                 type="text"
+                                onChange={handleSearchChange}
+
                             />
                         </fieldset>
                         <Button variant="outline" size="sm" onClick={handleNewRecord}>

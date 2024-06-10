@@ -1,25 +1,14 @@
 import { CloudArrowUp } from "phosphor-react";
 import { Button, Modal, Input } from "keep-react";
 import { useState } from "react";
-
-export default function NewRecordModal({ isOpen, onClose, fields, collection }) {
+export default function EditRecordModal({ isOpen, onClose, fields, collection }) {
     const [formData, setFormData] = useState({});
-    const [fileData, setFileData] = useState(null);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
+        console.log("Name:", name, "Value:", value);
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
-
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        setFileData(files[0]); // Assuming only one file is selected
-        setFormData({
-            ...formData,
-            [name]: files[0], // This will be replaced by FormData processing
         });
     };
 
@@ -27,15 +16,13 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
         e.preventDefault();
         console.log("Form Data Submitted: ", formData);
         
-        const formSubmission = new FormData();
-        Object.keys(formData).forEach(key => {
-            formSubmission.append(key, formData[key]);
-        });
-
         try {
             const response = await fetch('http://localhost:8000/api/collections/' + collection + '/records', {
                 method: 'POST',
-                body: formSubmission,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: formData }),
             });
             
             if (response.ok) {
@@ -50,7 +37,6 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
             console.error("Error adding record:", error);
         }
     };
-
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -60,25 +46,17 @@ export default function NewRecordModal({ isOpen, onClose, fields, collection }) 
                     </Modal.Icon>
 
                     <Modal.Content>
-                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Create new Record</h3>
+                    <h3 className="mb-2 text-body-1 font-medium text-metal-900">Edit record</h3>
                         <form onSubmit={handleSubmit}>
                             {fields.map((field, index) => (
                                 <div key={index}>
                                     <label>{field}</label>
-                                    {field === 'thumbnail' ? (
-                                        <Input
-                                            type="file"
-                                            name={field}
-                                            onChange={handleFileChange}
-                                        />
-                                    ) : (
-                                        <Input
-                                            type="text"
-                                            name={field}
-                                            value={formData[field] || ''}
-                                            onChange={handleChange}
-                                        />
-                                    )}
+                                    <Input
+                                        type="text"
+                                        name={field}
+                                        value={formData[field]}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                             ))}
                         </form>

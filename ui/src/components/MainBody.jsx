@@ -14,15 +14,6 @@ const MainBody = () => {
         setSelectedCollection(collection);
     };
 
-    const handleOpenSlidingWindow = () => {
-        if (selectedCollection) {
-            setIsSlidingWindowOpen(true);
-        } else {
-            console.log("No collection selected");
-            // Opcional: Puedes mostrar un mensaje al usuario indicando que debe seleccionar una colección primero
-        }
-    };
-
     const handleCloseSlidingWindow = () => {
         setIsSlidingWindowOpen(false);
     };
@@ -37,9 +28,9 @@ const MainBody = () => {
                 {selectedCollection && <NewTable collection={selectedCollection} />}
             </div>
             {isSlidingWindowOpen && (
-                <SlidingWindow 
-                    isOpen={isSlidingWindowOpen} 
-                    onClose={handleCloseSlidingWindow} 
+                <SlidingWindow
+                    isOpen={isSlidingWindowOpen}
+                    onClose={handleCloseSlidingWindow}
                     collection={selectedCollection}
                 />
             )}
