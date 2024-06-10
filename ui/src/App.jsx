@@ -9,8 +9,6 @@ import NewTable from "./components/MainBodyComponents/NewTable";
 export default function App() {
     return (
         <>
-            <SideBar />
-            <TabLists />
             <MainBody />
 
             {/* <BrowserRouter>

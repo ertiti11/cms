@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Title from './MainBodyComponents/Title';
-import TabLists from './TabLists';
+import SideBar from './SideBar';
 import TableComponent from './MainBodyComponents/TableComponent';
 import NewTable from './MainBodyComponents/NewTable';
 import SlidingWindow from './MainBodyComponents/SlidingWindow';
@@ -31,9 +31,11 @@ const MainBody = () => {
 
     return (
         <>
-            <Title collection={selectedCollection} />
-            <TabLists onCollectionSelect={handleCollectionSelect} />
-            {selectedCollection && <NewTable collection={selectedCollection} />}
+            <SideBar onCollectionSelect={handleCollectionSelect} />
+            <div id='titleAndTable'>
+                <h1>ClientSync</h1>
+                {selectedCollection && <NewTable collection={selectedCollection} />}
+            </div>
             {isSlidingWindowOpen && (
                 <SlidingWindow 
                     isOpen={isSlidingWindowOpen} 
