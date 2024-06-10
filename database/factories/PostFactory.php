@@ -16,8 +16,8 @@ class PostFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'content' => fake()->paragraph(),
-            'user_id' => fake()->numberBetween(1, 10),
-            'category_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 5),
+            'category_id' => fake()->numberBetween(1, 5),
             'status' => fake()->randomElement(['draft', 'published', 'archived']),
         ];
     }
