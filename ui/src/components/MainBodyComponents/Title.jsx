@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
 
-const Title = ({ collection }) => {
+const Title = () => {
     
     return (
-        <h1 className='title'>ClientSync</h1>
+        <h1 className='title text-5xl font-medium'>ClientSync</h1>
     );
 };
 

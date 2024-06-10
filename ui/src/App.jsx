@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage";
 import SideBar from "./components/SideBar";
 import MainBody from "./components/MainBody";
 import TabLists from "./components/TabLists";
+import NewTable from "./components/MainBodyComponents/NewTable";
 
 export default function App() {
     return (
@@ -11,15 +12,12 @@ export default function App() {
             <SideBar />
             <TabLists />
             <MainBody />
-            {/*
-            <BrowserRouter>
+
+            {/* <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={<NewTable collection={"users"} />} />
                 </Routes>
-            </BrowserRouter>
-            */}
+            </BrowserRouter> */}
         </>
-        
     );
 }

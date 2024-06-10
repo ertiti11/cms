@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Title from './MainBodyComponents/Title';
 import TabLists from './TabLists';
 import TableComponent from './MainBodyComponents/TableComponent';
+import NewTable from './MainBodyComponents/NewTable';
 import SlidingWindow from './MainBodyComponents/SlidingWindow';
 
 const MainBody = () => {
@@ -31,9 +32,8 @@ const MainBody = () => {
     return (
         <>
             <Title collection={selectedCollection} />
-            <button className='addRecordButton' onClick={handleOpenSlidingWindow}>Add record</button>
             <TabLists onCollectionSelect={handleCollectionSelect} />
-            {selectedCollection && <TableComponent collection={selectedCollection} />}
+            {selectedCollection && <NewTable collection={selectedCollection} />}
             {isSlidingWindowOpen && (
                 <SlidingWindow 
                     isOpen={isSlidingWindowOpen} 

@@ -6,7 +6,7 @@ const TableComponent = ({ collection }) => {
     const [records, setRecords] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTimeout, setSearchTimeout] = useState(null);
-
+    const [fields, setFields] = useState([]);
     const EXCLUDED_KEYS = ['email_verified_at', 'remember_token', 'created_at', 'updated_at'];
 
     console.log("Collection in TableComponent:", collection);
@@ -17,13 +17,20 @@ const TableComponent = ({ collection }) => {
                 const response = await fetch(`http://localhost:8000/api/collections/${collection}/records`);
                 const data = await response.json();
                 setRecords(data);
+                const keys = await fetch(`http://localhost:8000/api/collections/${collection}/fields`);
+                const fields = await keys.json();
+                // Filtrar los campos excluidos
+                const filteredFields = fields.filter(field => !EXCLUDED_KEYS.includes(field));
+                setFields(filteredFields);
             } catch (error) {
                 console.error("Error fetching records:", error);
             }
         };
-
+    
         fetchRecords();
     }, [collection]);
+
+    records? console.log("Records in TableComponent:", records): console.log("No records in TableComponent");
 
     const handleSearchChange = (event) => {
         const newSearchTerm = event.target.value;
@@ -63,7 +70,7 @@ const TableComponent = ({ collection }) => {
         return <div>No records found.</div>;
     }
 
-    const columns = Object.keys(filteredRecords[0]).filter(key => !EXCLUDED_KEYS.includes(key));
+
 
     return (
         <div className='table'>
@@ -76,7 +83,7 @@ const TableComponent = ({ collection }) => {
             <table className='customTable'>
                 <thead>
                     <tr>
-                        {columns.map((column, index) => (
+                        {fields.map((column, index) => (
                             <th key={index}>{column}</th>
                         ))}
                         <th></th>
@@ -86,7 +93,7 @@ const TableComponent = ({ collection }) => {
                 <tbody>
                     {filteredRecords.map((record, rowIndex) => (
                         <tr key={rowIndex}>
-                            {columns.map((column, colIndex) => (
+                            {fields.map((column, colIndex) => (
                                 <td key={colIndex}>{record[column]}</td>
                             ))}
                             <td>

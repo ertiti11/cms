@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import SearchTable from './TabListsComponents/SearchTable';
-import List from './TabListsComponents/List';
-import TableComponent from './MainBodyComponents/TableComponent';
-import '../styles/TabListsStyles/list.css';
+import React, { useState } from "react";
+import SearchTable from "./TabListsComponents/SearchTable";
+import List from "./TabListsComponents/List";
+import TableComponent from "./MainBodyComponents/TableComponent";
+import "../styles/TabListsStyles/list.css";
 
 const TabLists = ({ onCollectionSelect }) => {
     const [selectedCollection, setSelectedCollection] = useState(null);
@@ -16,7 +16,9 @@ const TabLists = ({ onCollectionSelect }) => {
         <>
             <SearchTable />
             <List onCollectionClick={handleCollectionClick} />
-            {selectedCollection && <TableComponent collection={selectedCollection} />}
+            {selectedCollection && (
+                <TableComponent collection={selectedCollection} />
+            )}
         </>
     );
 };
