@@ -122,7 +122,7 @@ export default function NewTable({ collection }) {
                 collection={collection}
                 onRecordAdded={fetchRecords} // Pass the callback to the modal
             />
-            <Table showCheckbox={true} className="w-[calc(100%-300px)] ">
+            <Table id="responsive-table" showCheckbox={true} className="w-[calc(100%-300px)] ">
                 <Table.Caption>
                     <div className="my-5 flex items-center justify-between px-6">
                         <div className="flex items-center gap-5">
@@ -165,7 +165,7 @@ export default function NewTable({ collection }) {
                         actions
                     </Table.HeadCell>
                 </Table.Head>
-                <Table.Body className="divide-gray-25 divide-y">
+                <Table.Body id="table" className="divide-gray-25 divide-y">
                     {filteredRecords.map((record, rowIndex) => (
                         <Table.Row className="bg-white h-auto" key={rowIndex}>
                             {fields.map((field, columnIndex) => (
