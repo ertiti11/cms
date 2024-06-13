@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SchemaController;
 use App\Http\Controllers\GenericCollectionController;
-
+use App\Http\Controllers\ImageController;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -35,7 +35,8 @@ Route::patch('/collections/{collection}/records/{id}', [GenericCollectionControl
 //delete
 Route::delete('/collections/{collection}/records/{id}', [GenericCollectionController::class, 'delete']);
 
-
+//Imagenes
+Route::get('/images/{filename}', [ImageController::class, 'getImage']);
 
 //Obtener todas las tablas
 Route::get('/collections/all', [SchemaController::class, 'view']);

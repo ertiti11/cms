@@ -168,9 +168,13 @@ export default function NewTable({ collection }) {
                 <Table.Body className="divide-gray-25 divide-y">
                     {filteredRecords.map((record, rowIndex) => (
                         <Table.Row className="bg-white h-auto" key={rowIndex}>
-                            {fields.map((field, columnIndex) => (
+                            {fields.map((field, columnIndex) => ( 
                                 <Table.Cell key={columnIndex}>
-                                    {record[field]}
+                                    {field === "thumbnail" && record[field] ? (
+                                        <img src={"http://localhost:8000/api/" + record[field]} alt="Thumbnail" />
+                                    ) : (
+                                        record[field]
+                                    )}
                                 </Table.Cell>
                             ))}
                             <Table.Cell>

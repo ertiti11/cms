@@ -17,7 +17,6 @@ const EXCLUDED_COLLECTIONS = [
     "cache",
     "cache_locks",
     "categories",
-    "comments",
     "failed_jobs",
     "job_batches",
     "jobs",
