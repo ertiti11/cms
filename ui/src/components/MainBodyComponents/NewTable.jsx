@@ -171,7 +171,7 @@ export default function NewTable({ collection }) {
                             {fields.map((field, columnIndex) => ( 
                                 <Table.Cell key={columnIndex}>
                                     {field === "thumbnail" && record[field] ? (
-                                        <img src={"http://localhost:8000/api/" + record[field]} alt="Thumbnail" />
+                                        <img src={"http://localhost:8000/api/" + record[field]} alt="Thumbnail"/>
                                     ) : (
                                         record[field]
                                     )}
