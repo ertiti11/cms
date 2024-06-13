@@ -26,3 +26,11 @@
     position: relative;
     z-index: 1000;
 }
+
+.sideBarItem:hover {
+    cursor: pointer;
+}
+
+#table {
+    font-size: 16px;
+}
